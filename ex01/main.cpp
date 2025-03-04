@@ -12,7 +12,7 @@ int main()
 
     DS3.attack("yamanaka");
     DS3.guardGate();
-    DS3.takeDamage(30);
-    DS3.beRepaired(50);
+    DS3.takeDamage(2147416298);
+    DS3.beRepaired(30);
 
 }

@@ -43,14 +43,18 @@ FragTrap &FragTrap::operator=(const FragTrap &copy)
 
 void FragTrap::attack(const std::string& target)
 {
-    if(EnergyPoints != 0 && HitPoints != 0)
+    if(HitPoints == 0)
     {
-        std::cout << "FragTrap " << Name << " attacks, " << target << " causing " << AttackDamage << " points of damage!" << std::endl;
-        EnergyPoints--;
+        std::cout << "No Hit Point" << std::endl;
     }
     else if(EnergyPoints == 0)
     {
         std::cout << "No Energy Point" << std::endl;
+    }
+    else
+    {
+        std::cout << "FragTrap " << Name << " attacks, " << target << " causing " << AttackDamage << " points of damage!" << std::endl;
+        EnergyPoints--;
     }
 }
 
@@ -58,28 +62,32 @@ void FragTrap::takeDamage(unsigned int amount)
 {
     std::cout << "FragTrap " << Name << " take " << amount << " points of damage!" << std::endl;
     HitPoints -= amount;
+    if(HitPoints <= 0)
+    {
+        std::cout << "FragTrap died" << std::endl; 
+        HitPoints = 0;
+    }
 }
 
 void FragTrap::beRepaired(unsigned int amount)
 {
-    if(EnergyPoints != 0 && HitPoints != 0)
+
+    if(HitPoints == 0)
+    {
+        std::cout << "FragTrap No Hit Point" << std::endl;
+    }
+    else if(EnergyPoints == 0)
+    {
+        std::cout << "FragTrap No Energy Point" << std::endl;
+    }
+    else
     {
         std::cout << "FragTrap " << Name << " Repaired " << amount << " points of HitPoints!" << std::endl;
         EnergyPoints--;
         HitPoints += amount;
-        if(HitPoints > MaxHP)
+        if(HitPoints > MaxHP || HitPoints < 0)
             HitPoints = MaxHP;
-        std::cout << HitPoints << std::endl;
     }
-    else if(EnergyPoints == 0)
-    {
-        std::cout << "No Energy Point" << std::endl;
-    }
-    else if(HitPoints == 0)
-    {
-        std::cout << "No Hit Point" << std::endl;
-    }
-
 }
 
 void FragTrap::highFivesGuys(void)

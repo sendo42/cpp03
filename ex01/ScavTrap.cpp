@@ -50,14 +50,18 @@ ScavTrap &ScavTrap::operator=(const ScavTrap &copy)
 
 void ScavTrap::attack(const std::string& target)
 {
-    if(EnergyPoints != 0 && HitPoints != 0)
+    if(HitPoints == 0)
     {
-        std::cout << "ScavTrap " << Name << " attacks, " << target << " causing " << AttackDamage << " points of damage!" << std::endl;
-        EnergyPoints--;
+        std::cout << "No Hit Point" << std::endl;
     }
     else if(EnergyPoints == 0)
     {
         std::cout << "No Energy Point" << std::endl;
+    }
+    else
+    {
+        std::cout << "ScavTrap " << Name << " attacks, " << target << " causing " << AttackDamage << " points of damage!" << std::endl;
+        EnergyPoints--;
     }
 }
 
@@ -65,26 +69,30 @@ void ScavTrap::takeDamage(unsigned int amount)
 {
     std::cout << "ScavTrap " << Name << " take " << amount << " points of damage!" << std::endl;
     HitPoints -= amount;
+    if(HitPoints <= 0)
+    {
+        std::cout << "ScavTrap died" << std::endl; 
+        HitPoints = 0;
+    }
 }
 
 void ScavTrap::beRepaired(unsigned int amount)
 {
-    if(EnergyPoints != 0 || HitPoints != 0)
+
+    if(HitPoints == 0)
+    {
+        std::cout << "ScavTrap No Hit Point" << std::endl;
+    }
+    else if(EnergyPoints == 0)
+    {
+        std::cout << "ScavTrap No Energy Point" << std::endl;
+    }
+    else
     {
         std::cout << "ScavTrap " << Name << " Repaired " << amount << " points of HitPoints!" << std::endl;
         EnergyPoints--;
         HitPoints += amount;
-        if(HitPoints > MaxHP)
+        if(HitPoints > MaxHP || HitPoints < 0)
             HitPoints = MaxHP;
-        std::cout << HitPoints << std::endl;
     }
-    else if(EnergyPoints == 0)
-    {
-        std::cout << "No Energy Point" << std::endl;
-    }
-    else if(HitPoints == 0)
-    {
-        std::cout << "No Hit Point" << std::endl;
-    }
-
 }
